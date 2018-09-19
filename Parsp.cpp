@@ -27,25 +27,11 @@ void pars_par(int argc, char **argv, _opert_ *opert) {
                     }
                     case 'p' : {
                         opert->comd_p = true;
-                        //opert->str_path = argv[i + 1];
                         strcpy(opert->str_path, argv[i + 1]);
-                        printf("path:%s\n", opert->str_path);
                         break;
                     }
                     case 'd' : {
                         opert->comd_d = true;
-                        break;
-                    }
-                    case 's' : {
-                        opert->comd_suffix = true;
-                        //opert->str_suffix = argv[i + 1];
-                        strcpy(opert->str_suffix, argv[i + 1]);
-                        break;
-                    }
-                    case 'n' : {
-                        opert->comd_name = true;
-                        //opert->str_name = argv[i + 1];
-                        strcpy(opert->str_name, argv[i + 1]);
                         break;
                     }
                 }

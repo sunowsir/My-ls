@@ -5,6 +5,9 @@
 	> Created:   2018年09月17日 星期一 16时37分09秒
  ************************************************************************/
 
+#include <pwd.h>
+#include <grp.h>
+#include <string.h>
 #include <iostream>
 #include <sys/stat.h>
 
@@ -12,20 +15,30 @@
 using std::cout;
 using std::endl;
 
-_fdata_ Get_TPPCF(char *fname) {
+// Get Need Print Informathon of File or Directory.
+void Get_NPIFD(char *fname, const char *stat_t, _fdata_ *fdata) {
 
-    struct _fdata_ fdata;
+    //Initialization _fdata_
+    init_fdata(fdata);
 
-    init_fdata(&fdata);
+    // Get file detailed properties based on file name.
+    struct stat file_st;
 
-    struct stat file_dates;
+    if (*stat_t == 'l') {
+        lstat(fname, &file_st);
+    } else {
+        stat(fname, &file_st);
+    }
+
+    // Get type and permissions of file or directory.
+
     long int mode;
     char *tp;
     int *co;
-    lstat(fname, &file_dates);
-    mode = file_dates.st_mode;
-    tp = fdata.tp;
-    co = &fdata.color;
+
+    mode = file_st.st_mode;
+    tp = fdata->tp;
+    co = &fdata->color;
 
 #ifdef S_ISLNK
 #ifdef S_ISSOCK
@@ -96,7 +109,41 @@ _fdata_ Get_TPPCF(char *fname) {
         }
     }
 
-    return fdata;
+    // Get link numbers.
+
+    fdata->nlink = (int)file_st.st_nlink;
+
+    // Use the 'getpwuid' and 'getgrgid' to get the username and group name via 'uid' and 'gid'.
+
+    struct passwd *pwu = getpwuid(file_st.st_uid);
+    struct group *pwg = getgrgid(file_st.st_gid);
+
+    strcpy(fdata->pwn, pwu->pw_name);
+    strcpy(fdata->pwg, pwg->gr_name);
+
+    // blocks.
+    
+    fdata->blocks = (double)file_st.st_blocks;
+
+    // Get size.
+    
+    fdata->size = file_st.st_size;
+
+    // Use 'localtime' function to parse 'st_time' in the 'lstat' structure to get the last access time of the file.
+    
+    struct tm *tim = localtime(&file_st.st_atime);
+
+    fdata->mon = tim->tm_mon + 1;
+    fdata->mday = tim->tm_mday;
+    fdata->hour = tim->tm_hour;
+    fdata->min = tim->tm_min;
+
+    // save name.
+    
+    strcpy(fdata->fname, fname);
+
+
+    return;
 
 }
 

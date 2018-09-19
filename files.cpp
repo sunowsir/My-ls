@@ -11,15 +11,22 @@
 int main(int argc, char ** argv) {
 
     _opert_ opert;
+    _mdata_ mdata;
 
     // initialization.
     init_opert(&opert);
 
+    // initialization.
+    init_mdata(&mdata);
+
     // Parsing parameters.
     pars_par(argc, argv, &opert);
 
-    // Performing operations.
-    per_opert(argc, &opert);
+    // Read directory and Performing operations.
+    Total(opert.str_path, &mdata);
+
+    // Output every files or directory information.
+    per_opert(argc, &opert, &mdata);
 
     return 0;
 }

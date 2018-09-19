@@ -14,36 +14,58 @@ struct _opert_ {
     bool comd_l;
     bool comd_p;
     bool comd_d;
-    bool comd_suffix;
-    bool comd_name;
-    char str_path[102400];
-    char str_suffix[102400];
-    char str_name[102400];
-    char str_way[102400];
+    char str_path[1024];
 };
 
 // Type, Permissions and Print color of file
 struct _fdata_ {
+    int nlink;
+    int size;
+    int mon;
+    int mday;
+    int hour;
+    int min;
     int color;
+    double blocks;
     char tp[11];
+    char fname[1024];
+    char pwn[1024];
+    char pwg[1024];
 };
 
-// Initialization _opert_ .
+struct _mdata_ {
+  
+    int fdnum;
+    int maxl_nlink;
+    int maxl_pwn;
+    int maxl_pwg;
+    int maxl_size;
+    int maxl_mon;
+    int maxl_mday;
+    int total_blocks;
+    struct _fdata_ fdata[1000];
+
+};
+
+// Initialization _opert_.
 void init_opert(_opert_ *);
 
-//Initialization _fdata_
+//Initialization _fdata_.
 void init_fdata(_fdata_ *);
+
+//Initialization _fdata_.
+void init_mdata(_mdata_ *);
 
 // Parsing parameters function.
 void pars_par(int, char **, _opert_ *);
 
 // Performing operations function.
-void per_opert(int, _opert_ *);
+void per_opert(int, _opert_ *, _mdata_ *);
 
 // Get type , permissions and print color of file .
-_fdata_ Get_TPPCF(char *);
+void Get_NPIFD(char *, const char *, _fdata_ *);
 
 // Get file used total
-double Total(char *);
+void Total(char * ,_mdata_ *);
 
 #endif
