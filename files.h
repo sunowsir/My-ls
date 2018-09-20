@@ -12,7 +12,6 @@
 struct _opert_ {
     bool comd_a;
     bool comd_l;
-    bool comd_p;
     bool comd_d;
     char str_path[1024];
 };

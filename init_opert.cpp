@@ -14,7 +14,6 @@ void init_opert(_opert_ *opert) {
     
     opert->comd_a = false;
     opert->comd_l = false;
-    opert->comd_p = false;
     opert->comd_d = false;
     strcpy(opert->str_path, getenv("PWD"));
 

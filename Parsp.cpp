@@ -23,7 +23,6 @@ void pars_par(int argc, char **argv, _opert_ *opert) {
                         opert->comd_l = true;
                         break;
                     case 'p' : 
-                        opert->comd_p = true;
                         strcpy(opert->str_path, argv[i + 1]);
                     if (opert->str_path[strlen(opert->str_path) - 1] != '/') {
                         strcat(opert->str_path, "/");
