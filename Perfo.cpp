@@ -24,7 +24,7 @@ using std::cout;
 using std::endl;
 using std::string;
 
-void per_opert(int argc, _opert_ *opert, _mdata_ *mdata) {
+void per_opert(_opert_ *opert, _mdata_ *mdata) {
     cout << "总用量 "  << mdata->total_blocks << endl;
 
     for (int i = 0; i < mdata->fdnum; i++) {
@@ -64,22 +64,22 @@ void per_opert(int argc, _opert_ *opert, _mdata_ *mdata) {
 
             // Output file size.
             printf("%*.d ", mdata->maxl_size, fd->size);
-
             
             // Out put the last access time of the file.
             printf("%*.d月  %0*d %02d:%02d \033[1;%dm%s\033[0m", mdata->maxl_mon, fd->mon, mdata->maxl_mday, fd->mday, fd->hour, fd->min, fd->color, fd->fname);
 
             if (fd->tp[0] == 'l') {
-                char source[10240] = "";
+                char source[1024] = "";
+                readlink(fd->fname, source, 1000);
+
                 struct _fdata_ sourcefd; 
-                Get_NPIFD(source, "s", &sourcefd);
-                readlink(fd->fname, source, 10000);
+                strcpy(sourcefd.fname, source);
+                Get_NPIFD(opert->str_path, &sourcefd, "s");
                 
                 printf(" -> \033[1;%dm%s\033[0m", sourcefd.color, source);
             }
             printf("\n");
         }
-
     }
 
     cout << "total numbers:" << mdata->fdnum << endl;

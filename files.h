@@ -28,9 +28,9 @@ struct _fdata_ {
     int color;
     double blocks;
     char tp[11];
-    char fname[1024];
-    char pwn[1024];
-    char pwg[1024];
+    char fname[800];
+    char pwn[100];
+    char pwg[100];
 };
 
 struct _mdata_ {
@@ -60,10 +60,10 @@ void init_mdata(_mdata_ *);
 void pars_par(int, char **, _opert_ *);
 
 // Performing operations function.
-void per_opert(int, _opert_ *, _mdata_ *);
+void per_opert(_opert_ *, _mdata_ *);
 
 // Get type , permissions and print color of file .
-void Get_NPIFD(char *, const char *, _fdata_ *);
+void Get_NPIFD(char *, _fdata_ *, const char *);
 
 // Get file used total
 void Total(char * ,_mdata_ *);

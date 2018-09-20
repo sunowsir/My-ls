@@ -14,26 +14,24 @@ void pars_par(int argc, char **argv, _opert_ *opert) {
     for (int i = 1; i < argc; i++) {
         
         if (argv[i][0] == '-' && argv[i][1] != '-') {
-            int argvi_len = strlen(argv[i]);
-            for (int j = 1; j < argvi_len; j++) {
+            for (int j = 1; j < (int)strlen(argv[i]); j++) {
                 switch (argv[i][j]) {
-                    case 'a' : {
+                    case 'a' : 
                         opert->comd_a = true;
                         break;
-                    }
-                    case 'l' : {
+                    case 'l' : 
                         opert->comd_l = true;
                         break;
-                    }
-                    case 'p' : {
+                    case 'p' : 
                         opert->comd_p = true;
                         strcpy(opert->str_path, argv[i + 1]);
-                        break;
+                    if (opert->str_path[strlen(opert->str_path) - 1] != '/') {
+                        strcat(opert->str_path, "/");
                     }
-                    case 'd' : {
+                        break;
+                    case 'd' : 
                         opert->comd_d = true;
                         break;
-                    }
                 }
             }
         }

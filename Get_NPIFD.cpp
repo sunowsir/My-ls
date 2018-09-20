@@ -12,36 +12,38 @@
 #include <sys/stat.h>
 
 #include "files.h"
-using std::cout;
-using std::endl;
 
 // Get Need Print Informathon of File or Directory.
-void Get_NPIFD(char *fname, const char *stat_t, _fdata_ *fdata) {
-
+void Get_NPIFD(char *path, _fdata_ *fdata, const char *stat_t) {
     //Initialization _fdata_
     init_fdata(fdata);
 
-    // Get file detailed properties based on file name.
+    // Get file detailed properties based on path and file name.
+    // Get Informathon of file or directory : 28 - 32.
     struct stat file_st;
+    char get_stat[800];
+    strcpy(get_stat, path);
+    strcat(get_stat, fdata->fname);
 
     if (*stat_t == 'l') {
-        lstat(fname, &file_st);
+        lstat(get_stat, &file_st);
     } else {
-        stat(fname, &file_st);
+        stat(get_stat, &file_st);
     }
+    
+    // Get type of file or directory : 47 - 68.
 
-    // Get type and permissions of file or directory.
-
-    long int mode;
     char *tp;
     int *co;
+    long int mode;
 
-    mode = file_st.st_mode;
     tp = fdata->tp;
     co = &fdata->color;
+    mode = file_st.st_mode;
 
 #ifdef S_ISLNK
 #ifdef S_ISSOCK
+
     if (S_ISDIR(mode)) {
         tp[0]  = 'd';
         *co = 34;
@@ -64,9 +66,11 @@ void Get_NPIFD(char *fname, const char *stat_t, _fdata_ *fdata) {
     else if (S_ISSOCK(mode)) {
         tp[0] = 's';
     }
-#endif
-#endif
 
+#endif
+#endif
+    
+    // Get permissions : 75 - 112 .
 
     if (S_IRUSR == (S_IRUSR & mode)) {
         tp[1] = 'r';
@@ -81,7 +85,6 @@ void Get_NPIFD(char *fname, const char *stat_t, _fdata_ *fdata) {
         }
     }
 
-
     if (S_IRGRP == (S_IRGRP & mode)) {
         tp[4] = 'r';
     }
@@ -94,7 +97,6 @@ void Get_NPIFD(char *fname, const char *stat_t, _fdata_ *fdata) {
             *co = 32;
         }
     }
-
 
     if (S_IROTH == (S_IROTH & mode)) {
         tp[7] = 'r';
@@ -121,7 +123,7 @@ void Get_NPIFD(char *fname, const char *stat_t, _fdata_ *fdata) {
     strcpy(fdata->pwn, pwu->pw_name);
     strcpy(fdata->pwg, pwg->gr_name);
 
-    // blocks.
+    // Get blocks.
     
     fdata->blocks = (double)file_st.st_blocks;
 
@@ -138,12 +140,6 @@ void Get_NPIFD(char *fname, const char *stat_t, _fdata_ *fdata) {
     fdata->hour = tim->tm_hour;
     fdata->min = tim->tm_min;
 
-    // save name.
-    
-    strcpy(fdata->fname, fname);
-
-
     return;
-
 }
 

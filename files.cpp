@@ -26,7 +26,7 @@ int main(int argc, char ** argv) {
     Total(opert.str_path, &mdata);
 
     // Output every files or directory information.
-    per_opert(argc, &opert, &mdata);
+    per_opert(&opert, &mdata);
 
     return 0;
 }

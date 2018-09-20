@@ -19,7 +19,6 @@ int cmp(const void *a, const void *b) {
 }
 
 void Total(char *path, _mdata_ *mdata) {
-
     // Through 'readdir' can get the information of a file under a path pointed to by the 'DIR' type pointer and the informathon will be save in dirent structure.
     DIR *dir = opendir(path);
 
@@ -35,7 +34,10 @@ void Total(char *path, _mdata_ *mdata) {
     int num = 0;
 
     while ((ptr = readdir(dir)) != NULL) {
-        Get_NPIFD(ptr->d_name, "l", &mdata->fdata[num]);
+        //save name
+        strcpy(mdata->fdata[num].fname, ptr->d_name);
+        
+        Get_NPIFD(path, &mdata->fdata[num], "l");
         
         mdata->maxl_pwn = max(mdata->maxl_pwn, (int)strlen(mdata->fdata[num].pwn));
         mdata->maxl_pwg = max(mdata->maxl_pwg, (int)strlen(mdata->fdata[num].pwg));
@@ -63,3 +65,6 @@ void Total(char *path, _mdata_ *mdata) {
 }
 
 #undef max
+
+
+
