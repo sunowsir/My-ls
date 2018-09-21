@@ -34,6 +34,7 @@ void Total(char *path, _mdata_ *mdata) {
     int num = 0;
 
     while ((ptr = readdir(dir)) != NULL) {
+
         //save name
         strcpy(mdata->fdata[num].fname, ptr->d_name);
         

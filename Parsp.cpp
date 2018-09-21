@@ -24,9 +24,6 @@ void pars_par(int argc, char **argv, _opert_ *opert) {
                         break;
                     case 'p' : 
                         strcpy(opert->str_path, argv[i + 1]);
-                    if (opert->str_path[strlen(opert->str_path) - 1] != '/') {
-                        strcat(opert->str_path, "/");
-                    }
                         break;
                     case 'd' : 
                         opert->comd_d = true;
@@ -35,6 +32,9 @@ void pars_par(int argc, char **argv, _opert_ *opert) {
             }
         }
         
+    }
+    if (opert->str_path[strlen(opert->str_path) - 1] != '/') {
+        strcat(opert->str_path, "/");
     }
 
 }
