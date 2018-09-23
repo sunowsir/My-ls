@@ -15,7 +15,8 @@
 #define max(x, y) (x > y) ? x : y
 
 int cmp(const void *a, const void *b) {
-    return strcmp((*(_fdata_ *)a).fname, (*(_fdata_ *)b).fname);
+    // Sort names by case insensitive.
+    return strcasecmp((*(_fdata_ *)a).fname, (*(_fdata_ *)b).fname);
 }
 
 void Total(char *path, _mdata_ *mdata) {
@@ -38,6 +39,7 @@ void Total(char *path, _mdata_ *mdata) {
         //save name
         strcpy(mdata->fdata[num].fname, ptr->d_name);
         
+        // Get file information.
         Get_NPIFD(path, &mdata->fdata[num], "l");
         
         mdata->maxl_pwn = max(mdata->maxl_pwn, (int)strlen(mdata->fdata[num].pwn));
@@ -56,6 +58,7 @@ void Total(char *path, _mdata_ *mdata) {
 
     closedir(dir);
 
+    // Sort file name.
     qsort(mdata->fdata, num, sizeof(mdata->fdata[0]), cmp);
 
     size_total = size_total / 2.0;
