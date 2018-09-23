@@ -58,7 +58,7 @@ void Total(char *path, _mdata_ *mdata) {
 
     qsort(mdata->fdata, num, sizeof(mdata->fdata[0]), cmp);
 
-    size_total = size_total * 512.0 / 1024.0;
+    size_total = size_total / 2.0;
     mdata->total_blocks = (int)size_total;
     mdata->fdnum = num;
 

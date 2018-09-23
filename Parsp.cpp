@@ -10,9 +10,7 @@
 #include "files.h"
 
 void pars_par(int argc, char **argv, _opert_ *opert) {
-    
     for (int i = 1; i < argc; i++) {
-        
         if (argv[i][0] == '-' && argv[i][1] != '-') {
             for (int j = 1; j < (int)strlen(argv[i]); j++) {
                 switch (argv[i][j]) {
@@ -33,8 +31,10 @@ void pars_par(int argc, char **argv, _opert_ *opert) {
         }
         
     }
+
     if (opert->str_path[strlen(opert->str_path) - 1] != '/') {
         strcat(opert->str_path, "/");
     }
 
+    return;
 }
